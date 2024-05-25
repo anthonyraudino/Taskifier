@@ -47,7 +47,7 @@ const AddTaskModal = ({ show, handleClose, addTask, addList }) => {
       <Modal.Body>
         <Form>
           <Form.Group controlId="formName">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>List Name</Form.Label>
             <Form.Control 
               type="text" 
               value={name} 
