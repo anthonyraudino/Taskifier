@@ -8,6 +8,8 @@ function App() {
   const [lists, setLists] = useState(loadLists());
   const [showModal, setShowModal] = useState(false);
 
+
+  
   useEffect(() => {
     saveLists(lists);
   }, [lists]);

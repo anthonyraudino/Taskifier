@@ -21,18 +21,26 @@ html, body {
   overflow-x: auto; /* Allow horizontal scrolling */
   overflow-y: hidden;
   white-space: nowrap;
-  padding: 20px;
+  padding: 25px 0px;
 }
 
 .list-container {
   display: inline-block;
   vertical-align: top;
-  height: calc(100% - 40px);
+  height: 100%;
   margin-right: 20px;
   overflow-y: auto;
   width: 500px;
   box-shadow: 1px 1px 3px rgb(0 0 0 / 10%);
   border-radius: 5px;
+}
+
+.card-body .card {
+  margin-bottom: 10px;
+}
+
+.list-container:first-child {
+  margin-left: 30px;
 }
 
 .list-container:last-child {
@@ -59,10 +67,22 @@ html, body {
 }
 
 @media (max-width: 576px) {
+  html, body {
+    padding-top: 15px; /* Adjust for the fixed header */
+  }
+
+  .list-container:first-child {
+    margin-left: 15px;
+  }
+
   .list-container {
-    width: 90%; /* Adjust width to fit inside the container evenly */
-    margin-right: 0;
+    width: 85%; /* Adjust width to fit inside the container evenly */
+    margin-right: 10px;
     margin-bottom: 20px; /* Add spacing between lists */
+  }
+
+  .list-container:last-child {
+    margin-right: 15px;
   }
 }
 
@@ -72,4 +92,8 @@ html, body {
 
 .aboutBtn {
   margin-right: .5rem;
+}
+
+.card-body {
+  overflow-x: hidden;
 }
