@@ -1,6 +1,6 @@
 {
   "name": "Taskifier",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "homepage": "https://anthonyraudino.github.io/Taskifier/",
   "private": true,
   "dependencies": {
