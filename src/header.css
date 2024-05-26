@@ -10,3 +10,14 @@
 .aboutBtn {
     margin-right: .5rem;
   }
+
+  .header-left-contents {
+    display: flex;
+    align-items: center;
+  }
+
+  .versionString {
+    color: white;
+    font-size:smaller;
+    text-align: left;
+  }

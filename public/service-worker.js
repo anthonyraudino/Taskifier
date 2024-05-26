@@ -9,7 +9,7 @@ precacheAndRoute(self.__WB_MANIFEST || []);
 registerRoute(
   /\.(?:html|js|css|png|jpg|jpeg|svg|gif)$/,
   new CacheFirst({
-    cacheName: 'taskifier-0-1-5',
+    cacheName: 'taskifier-0-1-6',
     plugins: [
       // Additional plugins can be added here
     ],
