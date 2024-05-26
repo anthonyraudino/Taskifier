@@ -7,7 +7,7 @@ import { loadLists, saveLists } from './utils/localStorageUtils';
 function App() {
   const [lists, setLists] = useState(loadLists());
   const [showModal, setShowModal] = useState(false);
-  
+
   useEffect(() => {
     saveLists(lists);
   }, [lists]);
@@ -48,17 +48,27 @@ function App() {
     <>
       <Header onAddList={() => setShowModal(true)} />
       <div id="root">
-        {lists.map(list => (
-          <div key={list.id} className="list-container">
-            <TodoList 
-              list={list} 
-              addTask={addTask} 
-              deleteTask={deleteTask}
-              toggleComplete={toggleComplete}
-              editTask={editTask}
-            />
+        {lists.length === 0 ? (
+          <div className="empty-message-container d-flex justify-content-center align-items-center">
+            <div className="empty-message text-center">
+              <h3>There's nothing here!</h3>
+              
+              Get started by creating a new Task List
+            </div>
           </div>
-        ))}
+        ) : (
+          lists.map(list => (
+            <div key={list.id} className="list-container">
+              <TodoList 
+                list={list} 
+                addTask={addTask} 
+                deleteTask={deleteTask}
+                toggleComplete={toggleComplete}
+                editTask={editTask}
+              />
+            </div>
+          ))
+        )}
         <AddTaskModal 
           show={showModal} 
           handleClose={() => setShowModal(false)} 
