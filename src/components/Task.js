@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
-import { formatDistanceToNow, isPast, isWithinInterval, subDays } from 'date-fns';
+import { formatDistanceToNow, isPast, isWithinInterval, subDays, addHours } from 'date-fns';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { FaCheck, FaTimes, FaEdit } from 'react-icons/fa'; // Import icons
+import { FaCheck, FaTimes, FaEdit } from 'react-icons/fa';
+import gsap from 'gsap';
 import './Task.css'; // Import the CSS file
 
 // Fixing the default icon issue with Leaflet
@@ -17,8 +18,12 @@ L.Icon.Default.mergeOptions({
 
 const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedTask, setEditedTask] = useState(task);
+  const [editedTask, setEditedTask] = useState({
+    ...task,
+    dueDate: task.dueDate ? task.dueDate : addHours(new Date(), 2).toISOString().slice(0, -8),
+  });
   const [location, setLocation] = useState(null);
+  const cardRef = useRef(null);
 
   useEffect(() => {
     if (task.location) {
@@ -39,8 +44,22 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
   };
 
   const handleEditSubmit = () => {
+    if (!editedTask.dueDate) {
+      editedTask.dueDate = addHours(new Date(), 2).toISOString().slice(0, -8);
+    }
     editTask(task.id, editedTask);
     setIsEditing(false);
+  };
+
+  const handleDeleteTask = () => {
+    gsap.to(cardRef.current, {
+      duration: 0.5,
+      opacity: 0,
+      height: 0,
+      marginBottom: 0,
+      padding: 0,
+      onComplete: () => deleteTask(task.id)
+    });
   };
 
   const dueDate = new Date(task.dueDate);
@@ -57,12 +76,12 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
   };
 
   return (
-    <Card className={getCardStyle()}>
+    <Card ref={cardRef} className={getCardStyle()}>
       <Card.Body>
         {isEditing ? (
           <Form>
             <Form.Group controlId="formName">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Task Name</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -71,12 +90,13 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
               />
             </Form.Group>
             <Form.Group controlId="formDescription">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Task Description</Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
                 name="description"
                 value={editedTask.description}
                 onChange={handleEditChange}
+                rows={3}
               />
             </Form.Group>
             <Form.Group controlId="formDueDate">
@@ -94,11 +114,11 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
         ) : (
           <>
             <Card.Title>
-              {task.name} {task.isComplete && <span className="text-white">(Complete)</span>}
+              <p className="taskName">{task.name} {task.isComplete && <span className="text-white">(Complete)</span>}</p>
               <span className="task-actions">
                 <FaCheck className="task-icon taskComplete" onClick={() => toggleComplete(task.id)} />
                 <FaEdit className="task-icon taskEdit" onClick={() => setIsEditing(true)} />
-                <FaTimes className="task-icon taskDelete" onClick={() => deleteTask(task.id)} />
+                <FaTimes className="task-icon taskDelete" onClick={handleDeleteTask} />
               </span>
             </Card.Title>
             <Card.Text>
@@ -113,7 +133,7 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
                     <div style={{ height: '200px', marginTop: '10px' }}>
                       <MapContainer
                         center={location}
-                        zoom={13}
+                        zoom={15}
                         style={{ height: '100%' }}
                         dragging={false}
                         touchZoom={false}

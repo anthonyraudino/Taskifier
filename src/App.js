@@ -44,6 +44,10 @@ function App() {
     setLists([...lists, { id: Date.now(), name, tasks: [] }]);
   };
 
+  const deleteList = (listId) => {
+    setLists(lists.filter(list => list.id !== listId));
+  };
+
   return (
     <>
       <Header onAddList={() => setShowModal(true)} />
@@ -52,7 +56,6 @@ function App() {
           <div className="empty-message-container d-flex justify-content-center align-items-center">
             <div className="empty-message text-center">
               <h3>There's nothing here!</h3>
-              
               Get started by creating a new Task List
             </div>
           </div>
@@ -65,6 +68,7 @@ function App() {
                 deleteTask={deleteTask}
                 toggleComplete={toggleComplete}
                 editTask={editTask}
+                deleteList={deleteList} // Pass the deleteList function to TodoList
               />
             </div>
           ))
