@@ -4,6 +4,8 @@ import { formatDistanceToNow, isPast, isWithinInterval, subDays } from 'date-fns
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { FaCheck, FaTimes, FaEdit } from 'react-icons/fa'; // Import icons
+import './Task.css'; // Import the CSS file
 
 // Fixing the default icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -44,10 +46,13 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
   const dueDate = new Date(task.dueDate);
   const isOverdue = isPast(dueDate);
   const isNearDue = isWithinInterval(dueDate, { start: new Date(), end: subDays(new Date(), -1) });
+  const isComplete = task.isComplete;
 
   const getCardStyle = () => {
-    if (isOverdue) return 'bg-dark text-white';
+    if (!isComplete && isOverdue) return 'bg-danger text-white';
     if (isNearDue) return 'bg-warning';
+    if (isComplete) return 'bg-success text-white';
+    
     return '';
   };
 
@@ -89,7 +94,12 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
         ) : (
           <>
             <Card.Title>
-              {task.name} {task.isComplete && <span className="text-success">(Complete)</span>}
+              {task.name} {task.isComplete && <span className="text-white">(Complete)</span>}
+              <span className="task-actions">
+                <FaCheck className="task-icon taskComplete" onClick={() => toggleComplete(task.id)} />
+                <FaEdit className="task-icon taskEdit" onClick={() => setIsEditing(true)} />
+                <FaTimes className="task-icon taskDelete" onClick={() => deleteTask(task.id)} />
+              </span>
             </Card.Title>
             <Card.Text>
               {task.description}
@@ -126,11 +136,6 @@ const Task = ({ task, deleteTask, toggleComplete, editTask }) => {
               <br />
               <small>Due {formatDistanceToNow(dueDate, { addSuffix: true })}</small>
             </Card.Text>
-            <Button variant="success" onClick={() => toggleComplete(task.id)}>
-              {task.isComplete ? 'Mark as Incomplete' : 'Mark as Complete'}
-            </Button>
-            <Button variant="primary" onClick={() => setIsEditing(true)}>Edit</Button>
-            <Button variant="danger" onClick={() => deleteTask(task.id)}>Delete</Button>
           </>
         )}
       </Card.Body>

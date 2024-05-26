@@ -13,7 +13,7 @@ const Header = ({ onAddList }) => {
       <Navbar bg="dark" variant="dark" fixed="top">
         <Container className="justify-content-between">
           <div className="header-left-contents"><Navbar.Brand href="#">Taskifier</Navbar.Brand>
-          <div className="versionString">v0.1.6</div>
+          <div className="versionString">v0.2.1</div>
           </div>
           <div>
             <Button className="aboutBtn" variant="secondary" onClick={handleAboutModal}>About</Button>

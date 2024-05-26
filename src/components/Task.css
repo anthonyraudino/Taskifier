@@ -1,0 +1,27 @@
+.task-actions {
+    float: right;
+    margin-left: 10px;
+  }
+  
+  .task-icon {
+    color: grey;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .task-icon:hover {
+    color: #007bff; /* Change color on hover */
+  }
+  
+  .leaflet-bottom.leaflet-right {
+    display: none;
+}
+
+.taskComplete {
+    color:green
+}
+
+.taskDelete {
+    color:red;
+}
