@@ -97,3 +97,15 @@ html, body {
 .card-body {
   overflow-x: hidden;
 }
+
+.taskListTitle {
+  padding: 10px 15px 0px 15px;
+}
+
+.card-body {
+  padding-top: 5px;
+}
+
+.card-text {
+  text-wrap: pretty;
+}
